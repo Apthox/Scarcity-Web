@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <style>
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+            #canvas {
+                border: 5px solid black;
+            }
+            #nav_contents {
+                margin-left: 20px;
+            }
+            .floating-menu {
+                font-family: sans-serif;
+                background: black;
+                padding: 5px;
+                width: 200px;
+                z-index: 100;
+                position: fixed;
+                top: 0px;
+                right: 0px;
+                opacity: .8;
+                margin: 2%;
+            }
+
+            .floating-menu a, .floating-menu h3 {
+                font-size: 0.9em;
+                display: block;
+                margin: 0 0.5em;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="floating-menu">
+            <h3>Settings</h3>
+            <div id="nav_contents">
+                <div>
+                    <input type="checkbox" id="centered" name="centered">
+                    <label for="centered" style="color:white;">Centered</label>
+                </div> 
+                <div>
+                    <input type="checkbox" id="static-enabled" name="static" checked>
+                    <label for="static" style="color:white;">Static Background</label>
+                </div>  
+                <div style="width:200px;">
+                    <label for="size" style="color:white;">Size</label>
+                    <select id="size-selector">
+                        <option value=1>1 Pixels</option>
+                        <option value=5>5 Pixels</option>
+                        <option value=10>10 Pixels</option>
+                        <option value=50>50 Pixels</option>
+                        <option value=100>100 Pixels</option>
+                        <option value=500>500 Pixels</option>
+                        <option value=1000>1k Pixels</option>
+                        <option value=5000>5k Pixels</option>
+                        <option value=10000>10k Pixels</option>
+                        <option value=50000>50k Pixels</option>
+                        <option value=100000>100k Pixels</option>
+                        <option value=500000>500k Pixels</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+        <canvas id="canvas">
+        <script type="text/javascript">
+
+            var static_checkbox = document.getElementById("static-enabled");
+            var size_selector = document.getElementById("size-selector");
+            var centered_checkbox = document.getElementById("centered");
+
+            var static_enabled = static_checkbox.checked;
+            var blob_size = size_selector.value;
+            var centered = centered_checkbox.checked;
+
+            static_checkbox.onchange = function() {
+                static_enabled = static_checkbox.checked;
+                init();
+            }
+
+            size_selector.onchange = function() {
+                blob_size = size_selector.value;
+                init();
+            }
+
+            centered_checkbox.onchange = function() {
+                centered = centered_checkbox.checked;
+                init();
+            }
+
+
+            function init() {
+                var canvas = document.getElementById('canvas');
+                canvas.setAttribute('width', 1000);
+                canvas.setAttribute('height', 1000);
+
+                if (static_enabled) static(canvas);
+
+                var bounds;
+
+                if (centered)
+                    bounds = [Math.floor(canvas.width/2), Math.floor(canvas.height/2)];
+                else
+                    bounds = find_random_bounds(canvas.height, canvas.width, blob_size)
+
+                circle(canvas, bounds[0], bounds[1], blob_size);             
+            }
+
+            function find_random_bounds(height, width, size) {
+                var radius = calculate_radius(size);
+                var x_centre = Math.floor(Math.random() * (canvas.width - (radius * 2))) + radius;
+                var y_centre = Math.floor(Math.random() * (canvas.height - (radius * 2))) + radius;
+
+                return [x_centre, y_centre]
+            };
+
+            function calculate_radius(area) {
+                return Math.sqrt(area/Math.PI);
+            }
+
+            function circle(c, x_centre, y_centre, size){
+                var r = calculate_radius(size);
+                var ctx = c.getContext('2d');
+
+                ctx.beginPath();
+                ctx.arc(x_centre, y_centre, r, 0, 2 * Math.PI, false);
+                ctx.fillStyle = 'black';
+                ctx.fill();
+            }      
+
+            function static(c) {
+                var ctx = c.getContext('2d');
+                var cw = c.width;
+                var ch = c.height;
+
+                ctx.clearRect(0, 0, cw, ch);
+                var t0 = new Date().getTime();
+                for (var i = 0; i < 1000000; ++i) {
+                    var ran = Math.random();
+                    var x = Math.floor(Math.random() * cw);
+                    var y = Math.floor(Math.random() * ch);
+                    var r = Math.floor(ran * 256);
+                    var g = Math.floor(ran * 256);
+                    var b = Math.floor(ran * 256);
+                 
+                    ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+                    ctx.fillRect(x, y, 1, 1);
+                }
+
+                var t1 = new Date().getTime();
+                console.log('fillRect() method: ' + (t1 - t0) + 'ms');
+            }
+
+            init(static_enabled, blob_size);
+
+        </script>
+        </body>
+</html>
