@@ -1,5 +1,9 @@
 <html>
     <head>
+         <meta charset="UTF-8">
+        <title></title>
+        <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    
         <style>
             body {
                 width: 100%;
@@ -43,9 +47,11 @@
                 margin: 0 0.5em;
                 color: white;
             }
+
         </style>
     </head>
     <body>
+
         <nav class="floating-menu">
             <h3>Settings</h3>
             <div id="nav_contents">
@@ -78,9 +84,14 @@
                         <option value=500000>500k Pixels</option>
                     </select>
                 </div>
+                <div>
+                    <label for="button" style="color:white;">Relocate</label>
+                    <button type="button" id="move">|~~~~~~~|</button>
+                </div>
                 <div style="width:200px;">
-                    <label for="range" style="color:white;">Samples</label>
+                    <label for="range" style="color:white;">First Stage &emsp;</label>
                     <select id="sample_selector">
+                        <option value=0>0 Sample</option>
                         <option value=1>1 Sample</option>
                         <option value=2>2 Samples</option>
                         <option value=5>5 Samples</option>
@@ -93,21 +104,44 @@
                         <option value=1000>1000 Samples</option>
                     </select>
                 </div>
+                <div style="width:200px;">
+                    <label for="range" style="color:white;">Second Stage</label>
+                    <select id="nsample_selector">
+                        <option value=0>0 Sample</option>
+                        <option value=1>1 Sample</option>
+                        <option value=2>2 Samples</option>
+                        <option value=5>5 Samples</option>
+                        <option value=10>10 Samples</option>
+                        <option value=20>20 Samples</option>
+                        <option value=50>50 Samples</option>
+                        <option value=100>100 Samples</option>
+                        <option value=200>200 Samples</option>
+                        <option value=500>500 Samples</option>
+                        <option value=1000>1000 Samples</option>
+                    </select>
+                </div>
+
                 <div>
-                    <label for="button" style="color:white;">Resample</label>
+                    <label for="button" style="color:white;"> First Stage Resample</label>
                     <button type="button" id="resample">|~~~~~~~|</button>
-                </div>
+                </div> 
                 <div>
-                    <label for="button" style="color:white;">Relocate</label>
-                    <button type="button" id="move">|~~~~~~~|</button>
+                    <label for="button" style="color:white;">Second Stage Resample</label>
+                    <button type="button" id="resample2">|~~~~~~~|</button>
                 </div>
-            </div>
+                <div> 
+                    <label for = "button" style="color:white;">Auto-Detect &emsp;&emsp;</label>
+                    <button type= "button" id = "auto_detect">|~~~~~~~|</button>
+                </div>
         </nav>
         <div class="wrapper">
             <canvas id="dyn_canvas"></canvas>
             <canvas id="stat_canvas"></canvas>
+            <h1 id="counter" style="display: none; font-size: 50px;
+            width: 10%; margin-left: 3%; font-family: monospace;">0</h1>
         </div>
         <script>
+
 
             var canvas = document.getElementById('dyn_canvas');
             canvas.setAttribute('width', 1000);
@@ -135,10 +169,15 @@
             var sample_selector = document.getElementById("sample_selector");
             var resample_button = document.getElementById("resample");
             var move_button = document.getElementById("move");
+            var resample2_button = document.getElementById("resample2");
+            var auto_button = document.getElementById("auto_detect");
+            var counter = document.getElementById("counter");
 
             var static_enabled = static_checkbox.checked;
             var blob_size = size_selector.value;
             var sample_size = sample_selector.value;
+
+            var nsample_size = nsample_selector.value;
             var high_enabled = high_checkbox.checked;
             var centered = centered_checkbox.checked;
 
@@ -161,6 +200,11 @@
                 random_samples(sample_size);
             }
 
+            nsample_selector.onchange = function(){
+                nsample_size = nsample_selector.value;
+                random2_samples(sample_size);
+            }
+
             high_checkbox.onchange = function() {
                 high_enabled = high_checkbox.checked;
                 if (high_enabled) {
@@ -180,8 +224,22 @@
                 }
             }
 
+            
+            auto_button.onclick = function(){
+                counter.style.display = "block";
+                auto_detect(0);
+            }
+
+            resample2_button.onclick = function() {
+                random2_samples();
+
+            };
+                
+            
+
             resample_button.onclick = function() {
                 random_samples();
+
             };
 
             move_button.onclick = function() {
@@ -217,7 +275,7 @@
                     if (contaminant === this) {
                         contaminant = undefined;
                     } else {
-                        samples = samples.filter(s => s.x != this.x && s.y != this.y);
+                        first_stage = first_stage.filter(s => s.x != this.x && s.y != this.y);
                     }
                     soft_init();
                 }
@@ -240,21 +298,44 @@
                     soft_init();
                 }
 
+                this.is_caught = false;
+
+                this.is_within = function (x, y) {
+                    var d = Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2));
+                    if (d <= this.r)
+                        return true;
+                    return false;
+                }
+
                 this.update = function() {
                     if (contaminant === this) {
-                        for (i = 0; i < samples.length; i++) {
-                            var d = Math.sqrt(Math.pow(this.x - samples[i].x, 2) + Math.pow(this.y - samples[i].y, 2));
-                            console.log("d: " + d + " r: " + this.r);
-                            if (d <= this.r) {
+
+                        for (i = 0; i < first_stage.length; i++) {
+                            var caught = this.is_within(first_stage[i].x,
+                                first_stage[i].y);
+                            if (caught) {
                                 this.recolor('green');
+                                this.is_caught = true;
                                 return;
                             }
                         }
+
+                        for (i = 0; i < second_stage.length; i++) {
+                            var caught = this.is_within(second_stage[i].x,
+                                second_stage[i].y);
+                            if (caught) {
+                                this.recolor('green');
+                                this.is_caught = true;
+                                return;
+                            }
+                        }
+
                         if (high_enabled) {
                             this.recolor('red');
                         } else {
                             this.recolor(normal_color);
                         }
+                        this.is_caught = false;
                     }
                 }
 
@@ -263,8 +344,8 @@
 
             let contaminant = undefined;
 
-            let samples = [];
-
+            let first_stage = [];
+            let second_stage = [];
 
             function hard_init() {
                 console.log(" Hard Initialization =======");
@@ -292,10 +373,15 @@
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                 contaminant.draw();
 
-                for (i = 0; i < samples.length; i++) { 
-                    samples[i].draw();
+                for (i = 0; i < first_stage.length; i++) { 
+                    first_stage[i].draw();
+                }
+
+                for (i = 0; i < second_stage.length; i++) { 
+                    second_stage[i].draw();
                 }
                 console.log(" Soft Initialization ======= Finished");
+
             }
 
             function find_random_bounds(size) {
@@ -316,18 +402,32 @@
             }
 
             function random_samples(){
-                samples = []
+                first_stage = [];
 
                 for (var i = 0; i<sample_size; i++){
                     var pt = find_random_bounds(calculate_area(3));
 
                     var c = new circle(pt[0], pt[1], 3, 'orange');
 
-                    samples.push(c);
+                    first_stage.push(c);
                 }
 
                 contaminant.update();
                 soft_init();
+            }
+
+            function random2_samples(){
+                second_stage = [];
+                 for (var i = 0; i<nsample_size; i++){
+                    var pt = find_random_bounds(calculate_area(3));
+
+                    var c = new circle(pt[0], pt[1], 3, 'purple');
+
+                    second_stage.push(c);
+                }
+                contaminant.update();
+                soft_init();
+
             }
 
             function static() {
@@ -348,6 +448,44 @@
                     ctx.fillRect(x, y, 1, 1);
                 }
 
+            }
+
+            function speed() {
+                var total_samples = first_stage.length + second_stage.length;
+                var prop = total_samples * (blob_size/(canvas.width * canvas.height));
+                var sp = 3000; // 3 seconds
+                
+                var delay = sp * prop;
+                if (delay < 1)
+                    return 0;
+                return Math.ceil(delay);
+
+            }
+            function auto_detect(c) {
+                
+                if (contaminant.is_caught) {
+
+                    if (c == 0) {
+                        random_samples();
+                        random2_samples();
+                        soft_init();
+                        auto_detect(c);
+                        return;
+                    }
+
+                    return c;
+                }
+
+                random_samples();
+                random2_samples();
+
+                soft_init();
+
+                counter.innerHTML = c + 1; 
+
+                return setTimeout(function() {
+                    return auto_detect(c + 1);
+                }, speed());  
             }
 
             hard_init();
