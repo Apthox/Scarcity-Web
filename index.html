@@ -226,12 +226,18 @@
 
             
             auto_button.onclick = function(){
+                if (sample_size == 0 && nsample_size == 0) {
+                    alert("Error: No Samples exist!");
+                    return;
+                }
+
                 counter.style.display = "block";
                 auto_detect(0);
             }
 
             resample2_button.onclick = function() {
                 random2_samples();
+                soft_init();
 
             };
                 
@@ -239,7 +245,7 @@
 
             resample_button.onclick = function() {
                 random_samples();
-
+                soft_init();
             };
 
             move_button.onclick = function() {
@@ -413,7 +419,6 @@
                 }
 
                 contaminant.update();
-                soft_init();
             }
 
             function random2_samples(){
@@ -426,8 +431,6 @@
                     second_stage.push(c);
                 }
                 contaminant.update();
-                soft_init();
-
             }
 
             function static() {
