@@ -9,6 +9,7 @@
                 width: 100%;
                 height: 100%;
                 margin: 0;
+                background-color: #424B54;
             }
 
             .wrapper {
@@ -19,27 +20,10 @@
             }
 
 
-            .wrapper canvas !important {
+            .wrapper canvas {
                 position: absolute;
                 top: 0;
                 left: 0;
-            }
-
-            #nav_contents {
-                margin-left: 20px;
-            }
-
-            .floating-menu {
-                font-family: sans-serif;
-                background: black;
-                padding: 5px;
-                width: 200px;
-                z-index: 100;
-                position: fixed;
-                top: 0px;
-                right: 0px;
-                opacity: .8;
-                margin: 2%;
             }
 
             .floating-menu a, .floating-menu h3 {
@@ -49,107 +33,491 @@
                 color: white;
             }
 
+            #menu {
+                width: 50px;
+                position: absolute;
+                margin-left: 925px;
+                z-index: 10;
+            }
+
+            #menu:hover .content {
+                background-color: black;
+                display: block;
+            }
+
+            .content {
+                position: absolute;
+                left: -925px;
+                height: 1000px;
+                width: 1000px;
+                opacity: .7;
+                display: none;
+                z-index: -2;
+            }
+
+
+            .menu-icon-back {
+                background-color: dimgray;
+                width: 70px;
+                height: 50px;
+                position: absolute;
+                top: 0;
+                left: -22px;
+                z-index: -1;
+                opacity: .6;
+            }
+
+            .menu-icon {
+                width: 50px;
+                float: right;
+                padding: 12px;
+             }
+
+            .menu-icon > .line {
+                background-color: #292929;
+                height: 2px;
+                display: block;
+            }
+            .menu-icon > .line + .line {
+                margin-top: 8px;
+            }
+
+            #help-pane {
+                width: 500px;
+                height: 1000px;
+                float: left;
+                display: inline-block;
+                background-color: black;
+            }
+
+            .pane-header {
+                background-color: snow;
+            }
+
+            .pane-header h1 {
+                margin: 0;
+                padding: 15px;
+                font-family: monospace;
+            }
+
+            #help-content {
+                padding: 15px;
+                height: 865px;
+                overflow: scroll;
+                margin-bottom: 15px;
+            }
+
+            #help-content p span {
+                color: snow !important;
+                font-family: monospace !important;
+            }
+
+            #options-pane {
+                width: 500px;
+                height: 1000px;
+                float: left;
+                display: inline-block;
+                background-color: black;
+            }
+
+            #help-footer {
+                background-color: snow;
+                font-family: monospace;
+                border-right: 5px solid black;
+            }
+
+            #help-footer h5 {
+                margin: 0;
+                padding: 8px;
+            }
+
+            .menu-wrapper {
+                height: 70px;
+                background-color: snow;
+                margin: 10px 0 0 6px;
+                text-align: center;
+            }
+
+            .menu-wrapper h4 {
+                margin: 0;
+                padding-top: 22px;
+                font-family: monospace;
+                font-size: 20px;
+                display: inline-block;
+            }
+
+            .input-display {
+                border-left: 5px solid black;
+                display: inline-block;
+                float: right;
+                height: 100%;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .menu-item {
+                cursor: pointer;
+            }
+
+            .menu-item span {
+                font-size: 20px;
+                vertical-align: middle;
+            }
+
+            #options-content {
+                height: 900px;
+                overflow: scroll;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .menu-dropdown {
+                 display: none;
+                 margin-left: 6px;
+             }
+
+            .menu-item:hover .menu-dropdown {
+                display: block;
+            }
+
+            .dropdown-item {
+                background-color: snow;
+                height: 40px;
+                text-align: center;
+                border-top: 2px solid black;
+            }
+
+            .dropdown-item h4 {
+                margin: 0;
+                padding-top: 10px;
+                font-family: monospace;
+                font-size: 15px;
+            }
+
+            .dropdown-item:hover {
+                background-color: lightgray;
+            }
+
+            .dropdown-select {
+                border: 5px outset lightgreen;
+            }
+
+            .true-button {
+                border: 5px outset lightgreen;
+            }
+
+            .false-button {
+                border: 5px outset indianred;
+            }
+
+            .dropdown-item input {
+                height: 100%;
+                width: 100%;
+                font-family: monospace;
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .input-display span {
+                display: inline-block;
+                padding-top: 20px;
+            }
+
         </style>
     </head>
     <body>
-
-        <nav class="floating-menu">
-            <h3>Settings</h3>
-            <div id="nav_contents">
-                <div>
-                    <input type="checkbox" id="centered" name="centered">
-                    <label for="centered" style="color:white;">Centered</label>
-                </div> 
-                <div>
-                    <input type="checkbox" id="static-enabled" name="static" checked>
-                    <label for="static" style="color:white;">Static Background</label>
-                </div>
-                <div>
-                	<input type="checkbox" id="stratify-enabled" name="stratify">
-                    <label for="stratify" style="color:white;">Stratify</label>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="high-enabled" name="high">
-                    <label for="high" style="color:white;">Highlight</label>
-                </div>    
-                <div style="width:200px;">
-                    <label for="size" style="color:white;">Size&emsp;&emsp;&emsp;&emsp;&emsp;</label>
-                    <select id="size-selector">
-                        <option value=1>1 Pixels</option>
-                        <option value=5>5 Pixels</option>
-                        <option value=10>10 Pixels</option>
-                        <option value=50>50 Pixels</option>
-                        <option value=100>100 Pixels</option>
-                        <option value=500>500 Pixels</option>
-                        <option value=1000>1k Pixels</option>
-                        <option value=5000>5k Pixels</option>
-                        <option value=10000>10k Pixels</option>
-                        <option value=50000>50k Pixels</option>
-                        <option value=100000>100k Pixels</option>
-                        <option value=500000>500k Pixels</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="button" style="color:white;">Relocate&emsp;&emsp;&emsp;</label>
-                    <button type="button" id="move">|~~~~~~~|</button>
-                </div>
-                <div style="width:200px;">
-                    <label for="range" style="color:white;">First Stage Samples</label>
-                    <select id="sample_selector">
-                        <option value=0>0 Sample</option>
-                        <option value=1>1 Sample</option>
-                        <option value=2>2 Samples</option>
-                        <option value=5>5 Samples</option>
-                        <option value=10>10 Samples</option>
-                        <option value=20>20 Samples</option>
-                        <option value=50>50 Samples</option>
-                        <option value=100>100 Samples</option>
-                        <option value=200>200 Samples</option>
-                        <option value=500>500 Samples</option>
-                        <option value=1000>1000 Samples</option>
-                    </select>
-                </div>
-                <div style="width:200px;">
-                    <label for="range" style="color:white;">Second Stage Samples</label>
-                    <select id="nsample_selector">
-                        <option value=0>0 Sample</option>
-                        <option value=1>1 Sample</option>
-                        <option value=2>2 Samples</option>
-                        <option value=5>5 Samples</option>
-                        <option value=10>10 Samples</option>
-                        <option value=20>20 Samples</option>
-                        <option value=50>50 Samples</option>
-                        <option value=100>100 Samples</option>
-                        <option value=200>200 Samples</option>
-                        <option value=500>500 Samples</option>
-                        <option value=1000>1000 Samples</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="button" style="color:white;"> First Stage Resample</label>
-                    <button type="button" id="resample">|~~~~~~~|</button>
-                </div> 
-                <div>
-                    <label for="button" style="color:white;">Second Stage Resample</label>
-                    <button type="button" id="resample2">|~~~~~~~|</button>
-                </div>
-                <div> 
-                    <label for = "button" style="color:white;">Auto-Detect &emsp;&emsp;</label>
-                    <button type= "button" id = "auto_detect">|~~~~~~~|</button>
-                </div>
-        </nav>
         <div class="wrapper">
-            <canvas id="dyn_canvas"></canvas>
-            <canvas id="stat_canvas"></canvas>
-            <canvas id= "first_strat_canvas"></canvas>
-            <canvas id= "second_strat_canvas"></canvas>
-            <h1 id="counter" style="display: none; font-size: 50px;
-            width: 10%; margin-left: 3%; font-family: monospace;">0</h1>
+            <div>
+                <canvas id="dyn_canvas"></canvas>
+                <canvas id="stat_canvas"></canvas>
+                <canvas id= "first_strat_canvas"></canvas>
+                <canvas id= "second_strat_canvas"></canvas>
+                <h1 id="counter" style="display: none; font-size: 50px;
+                width: 10%; margin-left: 3%; font-family: monospace; position: absolute">0</h1>
+            </div>
+            <div id="menu">
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <div class="menu-icon-back"></div>
+                </div>
+                <div id="menu-content" class="content">
+                    <div id="help-pane">
+                        <div class="pane-header" style="border-right: 5px solid black;">
+                            <h1>Help Page</h1>
+                        </div>
+                        <div id="help-content">
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Welcome to the Sampling Simulator. Use the information that follows and see if you are lucky enough to detect the contamination. &nbsp;</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">This application uses a random number generator to simulate the luck or chance of detection a contamination. The testing area is 1,000,000 pixels (1000 X 1000) and represents a field or a lot. &nbsp;A 100-pixel contamination reflects something approximating the background contamination in leafy greens. Larger or smaller contaminations can be used to simulate other conditions. By selecting a size for the contamination and defining an inspection protocol, one can test their luck at detecting the contamination. &nbsp;The results are presented graphically and with text in the testing area by color changes. A detected contamination turns green. Just a few more notes to aid in running the application:</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">The </span><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">centered</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> check box keeps the contamination at the center of the field. &nbsp;</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">The </span><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">static background</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> check box randomly fills the field with noise visually obscuring the contamination but does not affect the sampling process. &nbsp;</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">The </span><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">highlight</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> checkbox turns the contamination red making it easier to see but does not affect the sampling process. </span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Sampling Stragety </span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">is a drop-down menu for selecting the sample stragety of that population</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Contaminant Size </span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">is a drop-down input for setting the size of the contamination.</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">First Stage Sample Population </span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">is a drop-down menu to select the number of samples to model preharvest or in process samples. &nbsp;The </span><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Stratify</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> button will force partitioning when selected.</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Second Stage Sample Population</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> is a drop-down menu to select the number of samples to model finished product samples. The </span><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Stratify</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> button will force partitioning when selected.</span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">First Stage Resample and Second Stage Resample</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> are buttons to allow manual resampling. &nbsp;These buttons can be used repeatedly. </span></p>
+                            <p style="line-height: 1.295; margin-top: 0pt; margin-bottom: 8pt;"><strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Auto-Detect</span></strong><span style="font-size: 11pt; font-family: Calibri; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> is a button that repeatedly samples both sampling stages until the contamination is found. &nbsp;The number of cycles is reported in the upper left corner of the testing area.</span></p>
+                        </div>
+                        <div id="help-footer">
+                            <h5>for Questions or Bug Report contact Yessica at jessh2182@gmail.com</h5>
+                        </div>
+                    </div>
+                    <div id="options-pane">
+                        <div class="pane-header" style="border-left: 5px solid black;">
+                            <h1>Simulator Configurables</h1>
+                        </div>
+
+                        <div id="options-content">
+
+                            <a id="centered-toggle" class="menu-item" onclick="toggle_button(this);">
+                                <div id="centered-toggle-value" class="menu-wrapper false-button" value="false">
+                                    <h4> Centered </h4>
+                                </div>
+                            </a>
+
+                            <a id="static-toggle" class="menu-item" onclick="toggle_button(this);">
+                                <div id="static-toggle-value" class="menu-wrapper true-button" value="true">
+                                    <h4> Static Background </h4>
+                                </div>
+                            </a>
+
+                            <a id="highlight-toggle" class="menu-item" onclick="toggle_button(this);">
+                                <div id="highlight-toggle-value" class="menu-wrapper false-button" value="false">
+                                    <h4> Highlight Contaminant </h4>
+                                </div>
+                            </a>
+
+                            <a id="first-stage-drop" class="menu-item">
+                                <div class="menu-wrapper">
+                                    <h4>First Stage Sampling Strategy <span>▼</span> </h4>
+                                </div>
+                                <div id="first-strategy" class="menu-dropdown">
+                                    <div name="random" class="dropdown-item dropdown-select" onclick="select_item(this);" selected>
+                                        <h4>Random</h4>
+                                    </div>
+                                    <div name="stratified" class="dropdown-item" onclick="select_item(this);">
+                                        <h4>Stratified</h4>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a id="second-stage-drop" class="menu-item">
+                                <div class="menu-wrapper">
+                                    <h4>Second Stage Sampling Strategy <span>▼</span> </h4>
+                                </div>
+                                <div id="second-strategy" class="menu-dropdown">
+                                    <div name="random" class="dropdown-item dropdown-select" onclick="select_item(this);" selected>
+                                        <h4>Random</h4>
+                                    </div>
+                                    <div name="stratified" class="dropdown-item" onclick="select_item(this);">
+                                        <h4>Stratified</h4>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a id="size-input" class="menu-item">
+                                <div class="menu-wrapper">
+                                    <h4>Contaminant Size </h4>
+                                    <div class="input-display">
+                                        <span> 100 </span>
+                                    </div>
+                                </div>
+                                <div class="menu-dropdown">
+                                    <div class="dropdown-item" onclick="">
+                                        <input id="size-input" class="input-bar" type="number" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="100" onkeyup="submit_input(this);">
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a id="first-stage-population-size" class="menu-item">
+                                <div class="menu-wrapper">
+                                    <h4>First Stage Sample Population </h4>
+                                    <div class="input-display">
+                                        <span> 0 </span>
+                                    </div>
+                                </div>
+                                <div class="menu-dropdown">
+                                    <div class="dropdown-item" onclick="">
+                                        <input id="first-stage-pop-size" class="input-bar" type="number" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="0" onkeyup="submit_input(this);">
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a id="second-stage-population-size" class="menu-item">
+                                <div class="menu-wrapper">
+                                    <h4>Second Stage Sample Population </h4>
+                                    <div class="input-display">
+                                        <span> 0 </span>
+                                    </div>
+                                </div>
+                                <div class="menu-dropdown">
+                                    <div class="dropdown-item" onclick="">
+                                        <input id="second-stage-pop-size" class="input-bar" type="number" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="0" onkeyup="submit_input(this);">
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a id="first-stage-resample" class="menu-item" onclick="clicked_action(this);">
+                                <div class="menu-wrapper">
+                                    <h4>First Stage Resample</h4>
+                                </div>
+                            </a>
+
+                            <a id="second-stage-resample" class="menu-item" onclick="clicked_action(this);">
+                                <div class="menu-wrapper">
+                                    <h4>Second Stage Resample</h4>
+                                </div>
+                            </a>
+
+                            <a id="auto-detect" class="menu-item" onclick="clicked_action(this);">
+                                <div class="menu-wrapper">
+                                    <h4>Auto Detect</h4>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script>
+
+            function select_item(ele) {
+                let par = ele.parentElement;
+                NodeList.prototype.forEach = Array.prototype.forEach;
+                var children = par.childNodes;
+                children.forEach(function(item){
+                    if (item && item.nodeType === Node.ELEMENT_NODE) {
+                        item.className = "dropdown-item";
+                        item.removeAttribute("selected");
+                    }
+                });
+                ele.className += " dropdown-select";
+                ele.setAttribute("selected", "");
+
+                console.log(par.id);
+                console.log(ele.getAttribute("name"));
+
+                switch (par.id) {
+                    case "first-strategy":
+                        let a1 = ele.getAttribute("name");
+                        if (a1 === "stratified") {
+                            stratify_1(true);
+                        } else {
+                            stratify_1(false);
+                        }
+                        break;
+                    case "second-strategy":
+                        let a2 = ele.getAttribute("name");
+                        if (a2 === "stratified") {
+                            stratify_2(true);
+                        } else {
+                            stratify_2(false);
+                        }
+                        break;
+
+                }
+
+                close_menu();
+            }
+
+            function toggle_button(ele) {
+                console.log(ele.id);
+                let child = (ele.firstElementChild || ele.firstChild);
+
+                let b = false;
+                if (child.className.match(/(?:^|\s)true-button(?!\S)/) ) {
+                    child.className = "menu-wrapper false-button";
+                    child.setAttribute("value", false);
+                    b = false;
+                } else {
+                    child.className = "menu-wrapper true-button";
+                    child.setAttribute("value", true);
+                    b = true;
+                }
+
+                if (ele.id === "centered-toggle") {
+                    center(b);
+                }
+
+                switch (ele.id) {
+                    case "centered-toggle":
+                        center(b);
+                        break;
+                    case "static-toggle":
+                        static_background(b);
+                        break;
+                    case "highlight-toggle":
+                        highlight(b);
+                        break;
+                }
+
+                close_menu();
+            }
+
+            function submit_input(ele) {
+                event.preventDefault();
+                if (!(event.keyCode === 13)) return;
+                var value = ele.value;
+
+                var base = ele.parentElement.parentElement.parentElement;
+                var wrapper = base.getElementsByClassName("menu-wrapper")[0];
+                var display = wrapper.getElementsByClassName("input-display")[0];
+                var span = display.getElementsByTagName("span")[0];
+
+                if (!(value >= 1 && value <= 100000)) {
+                    alert("Invalid Value: Range May only be (1 - 100,000)");
+                    ele.value = 1;
+                    span.innerHTML = String(1);
+                    return;
+                }
+
+                span.innerHTML = String(ele.value);
+
+                switch (ele.id){
+                    case "size-input":
+                        update_contaminant_size(value);
+                        break;
+
+                    case "first-stage-pop-size":
+                        update_sample1_size(value);
+                        break;
+
+                    case "second-stage-pop-size":
+                        update_sample2_size(value);
+                        break;
+                }
+
+                close_menu();
+            }
+
+            function clicked_action(ele) {
+                console.log(ele.id);
+                switch (ele.id) {
+                    case "first-stage-resample":
+                        resample1();
+                        break;
+                    case "second-stage-resample":
+                        resample2();
+                        break;
+                    case "auto-detect":
+                        autodetect();
+                        break;
+                }
+
+                close_menu();
+            }
+
+        	var grey = "424B54";
+        	var red = [250, 60, 84];
+        	var light_red = [254, 119, 135];
+        	var blue = [135, 188, 240];
+        	var light_blue = [195, 222, 250];
+        	var green = [50, 205, 50];
+        	var purple = "A7A5C6";
 
 
             var canvas = document.getElementById('dyn_canvas');
@@ -184,34 +552,28 @@
             second_stratify_canvas.style.position = 'absolute';
             second_stratify_canvas.style.zIndex = 3;
 
-
-
             var static_density = 200000;
-            var normal_color = 'rgb(120,120,120)';
+            var normal_color = 'rgb(205,200,200)';
+            var normal_rgb = [205, 200, 200];
 
-            var static_checkbox = document.getElementById("static-enabled");
-            var stratify_checkbox = document.getElementById("stratify-enabled");
-            var size_selector = document.getElementById("size-selector");
-            var centered_checkbox = document.getElementById("centered");
-            var high_checkbox = document.getElementById("high-enabled");
-            var sample_selector = document.getElementById("sample_selector");
-            var resample_button = document.getElementById("resample");
-            var move_button = document.getElementById("move");
-            var resample2_button = document.getElementById("resample2");
-            var auto_button = document.getElementById("auto_detect");
-            var counter = document.getElementById("counter");
+            var static_enabled = true;
+            var first_stratify_enabled = false;
+            var second_stratify_enabled = false;
+            var blob_size = 100;
+            var sample_size = 0;
 
-            var static_enabled = static_checkbox.checked;
-            var stratify_enabled = stratify_checkbox.checked;
-            var blob_size = size_selector.value;
-            var sample_size = sample_selector.value;
+            var nsample_size = 0;
+            var high_enabled = false;
+            var centered = false;
 
-            var nsample_size = nsample_selector.value;
-            var high_enabled = high_checkbox.checked;
-            var centered = centered_checkbox.checked;
+            function close_menu() {
+                let ele = document.getElementById("menu-content");
+                ele.style.display = "none";
+                setTimeout(function() { ele.removeAttribute("style"); }, 100);
+            }
 
-            static_checkbox.onchange = function() {
-                static_enabled = static_checkbox.checked;
+            function static_background(active) {
+                static_enabled = active;
                 if (static_enabled) {
                     static_canvas.style.display = 'block';
                 } else {
@@ -219,30 +581,38 @@
                 }
             }
 
-            stratify_checkbox.onchange = function(){
-            	stratify_enabled = stratify_checkbox.checked;
-            	if (stratify_enabled) {
-            		first_stratify_canvas.style.display = 'block';
-                    second_stratify_canvas.style.display = 'block';
+            function stratify_1(enable){
+                first_stratify_enabled = enable;
+                if (first_stratify_enabled) {
+                    first_stratify_canvas.style.display = 'block';
                     first_stratify();
-                    second_stratify();
                 } else {
                     first_stratify_canvas.style.display = 'none';
-                    second_stratify_canvas.style.display = 'none';
                     random_samples();
+                }
+                soft_init();
+            }
+
+            function stratify_2(enable){
+                second_stratify_enabled = enable;
+                if (second_stratify_enabled) {
+                    second_stratify_canvas.style.display = 'block';
+                    second_stratify();
+                } else {
+                    second_stratify_canvas.style.display = 'none';
                     random2_samples();
                 }
                 soft_init();
             }
 
-            size_selector.onchange = function() {
-                blob_size = size_selector.value;
+            function update_contaminant_size(size) {
+                blob_size = size;
                 contaminant.resize(calculate_radius(blob_size));
             }
 
-            sample_selector.onchange = function() {
-                sample_size = sample_selector.value;
-                if (stratify_enabled){
+            function update_sample1_size(size) {
+                sample_size = size;
+                if (first_stratify_enabled){
                     first_stratify();
                 } else {
                     random_samples();
@@ -250,9 +620,9 @@
                 soft_init();
             }
 
-            nsample_selector.onchange = function(){
-                nsample_size = nsample_selector.value;
-                if (stratify_enabled){
+            function update_sample2_size(size){
+                nsample_size = size;
+                if (second_stratify_enabled){
                     second_stratify();
                 } else {
                     random2_samples();
@@ -260,17 +630,17 @@
                 soft_init();
             }
 
-            high_checkbox.onchange = function() {
-                high_enabled = high_checkbox.checked;
+            function highlight(enable) {
+                high_enabled = enable;
                 if (high_enabled) {
-                    contaminant.recolor('red');
+                    contaminant.recolor(red);
                 } else {
-                    contaminant.recolor(normal_color);
+                    contaminant.recolor(normal_rgb);
                 }
             }
 
-            centered_checkbox.onchange = function() {
-                centered = centered_checkbox.checked;
+            function center(enable) {
+                centered = enable;
                 if (centered) {
                     contaminant.move_to(canvas.height/2, canvas.width/2);
                 } else {
@@ -280,8 +650,8 @@
             }
 
             
-            auto_button.onclick = function(){
-                if (sample_size == 0 && nsample_size == 0) {
+            function autodetect(){
+                if (sample_size === 0 && nsample_size === 0) {
                     alert("Error: No Samples exist!");
                     return;
                 }
@@ -290,53 +660,50 @@
                 auto_detect(0);
             }
 
-            resample2_button.onclick = function() {
-                if (stratify_enabled) {
+            function resample2() {
+                if (second_stratify_enabled) {
                     second_stratify();
                 } else {
                     random2_samples();
                 }
                 soft_init();
 
-            };
-                
-            resample_button.onclick = function() {
-                if (stratify_enabled) {
+            }
+            function resample1() {
+                if (first_stratify_enabled) {
                     first_stratify();
                 } else {
                     random_samples();
                 }
                 soft_init();
-            };
-
-            move_button.onclick = function() {
+            }
+            function move() {
                 if (contaminant.x == (canvas.width/2) && contaminant.y == (canvas.height/2)) return;
                 var b = find_random_bounds(calculate_area(contaminant.r));
                 contaminant.move_to(b[0], b[1]);
-            };
-
+            }
             function circle(x, y, r, color) {
 
                 this.x = x;
                 this.y = y;
                 this.r = r;
-                this.c = color;
+                this.co = color;
 
                 this.draw = function() {
                     var ctx = canvas.getContext('2d');
 
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
-                    ctx.fillStyle = this.c;
+                    ctx.fillStyle = this.co;
                     ctx.fill();
-                }
+                };
 
                 this.move_to = function(x, y) {
                     this.x = x;
                     this.y = y;
                     soft_init();
                     this.update();
-                }
+                };
 
                 this.delete = function() {
                     if (contaminant === this) {
@@ -345,7 +712,7 @@
                         first_stage = first_stage.filter(s => s.x != this.x && s.y != this.y);
                     }
                     soft_init();
-                }
+                };
 
                 this.resize = function(radius) {
                     this.r = radius;
@@ -358,12 +725,16 @@
 
                     soft_init();
                     this.update();
-                }
+                };
 
                 this.recolor = function(color) {
-                    this.c = color;
+                    if (this === contaminant) {
+                        console.log("Contam color is changing! -> " + color);
+                    }
+
+                    this.co = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
                     soft_init();
-                }
+                };
 
                 this.is_caught = false;
 
@@ -372,7 +743,7 @@
                     if (d <= this.r)
                         return true;
                     return false;
-                }
+                };
 
                 this.update = function() {
                     if (contaminant === this) {
@@ -381,7 +752,7 @@
                             var caught = this.is_within(first_stage[i].x,
                                 first_stage[i].y);
                             if (caught) {
-                                this.recolor('green');
+                                this.recolor(green);
                                 this.is_caught = true;
                                 return;
                             }
@@ -391,20 +762,20 @@
                             var caught = this.is_within(second_stage[i].x,
                                 second_stage[i].y);
                             if (caught) {
-                                this.recolor('green');
+                                this.recolor(green);
                                 this.is_caught = true;
                                 return;
                             }
                         }
 
                         if (high_enabled) {
-                            this.recolor('red');
+                            this.recolor(red);
                         } else {
-                            this.recolor(normal_color);
+                            this.recolor(normal_rgb);
                         }
                         this.is_caught = false;
                     }
-                }
+                };
 
                 return this;
             }
@@ -429,11 +800,15 @@
                 contaminant = new circle(bounds[0], bounds[1], calculate_radius(blob_size), normal_color);
                 contaminant.draw();
 
-                if (stratify_enabled) {
+                if (first_stratify_enabled) {
                     first_stratify();
-                    second_stratify();
                 } else {
                     random_samples();
+                }
+
+                if (second_stratify_enabled) {
+                    second_stratify();
+                } else {
                     random2_samples();
                 }
                 
@@ -465,8 +840,7 @@
                 var y_centre = Math.floor(Math.random() * (canvas.height - (radius * 2))) + radius;
 
                 return [x_centre, y_centre];
-            };
-
+            }
             function calculate_radius(area) {
                 return Math.sqrt(area/Math.PI);
             }
@@ -477,11 +851,13 @@
 
             function random_samples(){
                 first_stage = [];
-
+                let r = red[0];
+                let g = red[1];
+                let b = red[2];
                 for (var i = 0; i<sample_size; i++){
                     var pt = find_random_bounds(calculate_area(3));
 
-                    var c = new circle(pt[0], pt[1], 3, 'orange');
+                    var c = new circle(pt[0], pt[1], 3, 'rgb(' + r + ',' + g + ',' + b + ')');
 
                     first_stage.push(c);
                 }
@@ -491,10 +867,13 @@
 
             function random2_samples(){
                 second_stage = [];
+                let r = blue[0];
+                let g = blue[1];
+                let b = blue[2];
                  for (var i = 0; i<nsample_size; i++){
                     var pt = find_random_bounds(calculate_area(3));
 
-                    var c = new circle(pt[0], pt[1], 3, 'purple');
+                    var c = new circle(pt[0], pt[1], 3, 'rgb(' + r + ',' + g + ',' + b + ')');
 
                     second_stage.push(c);
                 }
@@ -511,9 +890,9 @@
                     var ran = Math.random();
                     var x = Math.floor(Math.random() * cw);
                     var y = Math.floor(Math.random() * ch);
-                    var r = Math.floor(ran * 256);
-                    var g = Math.floor(ran * 256);
-                    var b = Math.floor(ran * 256);
+                    var r = Math.floor((ran * 150)+100);
+                    var g = Math.floor((ran * 150)+100);
+                    var b = Math.floor((ran * 150)+100);
                  
                     ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
                     ctx.fillRect(x, y, 1, 1);
@@ -522,50 +901,49 @@
             }
 
             function first_stratify(){
-            	var ctx = first_stratify_canvas.getContext('2d');
-            	var cw = first_stratify_canvas.width;
+                var ctx = first_stratify_canvas.getContext('2d');
+                var cw = first_stratify_canvas.width;
                 var ch = first_stratify_canvas.height;
                 ctx.clearRect(0, 0, cw, ch);
                 first_stage = [];
-		    	var rect_width = cw / sample_size;
+                var rect_width = cw / sample_size;
 
-                var color1 = [0, 102, 0];
-                var color2 = [0, 255, 0];
+                var color1 = red;
+                var color2 = light_red;
 
-		    	for(var i=0; i<sample_size; i++){
-		    		var x = (rect_width * i);
-		    		var y = 0;
+                for(var i=0; i<sample_size; i++){
+                    var x = (rect_width * i);
+                    var y = 0;
 
-                    if (i % 2) {
-                        r = color1[0];
-                        g = color1[1];
-                        b = color1[2];
-                    } else {
-                        r = color2[0];
-                        g = color2[1];
-                        b = color2[2];
+                        if (i % 2) {
+                            r = color1[0];
+                            g = color1[1];
+                            b = color1[2];
+                        } else {
+                            r = color2[0];
+                            g = color2[1];
+                            b = color2[2];
+                        }
+
+                        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',0.3)';
+                        ctx.fillRect(x, y, rect_width, ch);
+
+                        if (!(i % 2)) {
+                            r = color1[0];
+                            g = color1[1];
+                            b = color1[2];
+                        } else {
+                            r = color2[0];
+                            g = color2[1];
+                            b = color2[2];
+                        }
+
+                        x = x + (rect_width * Math.random());
+                        y = ch * Math.random();
+
+                        var c = new circle(x, y, 3, 'rgba(' + r + ',' + g + ',' + b + ')');
+                        first_stage.push(c);
                     }
-
-			    	ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',0.3)';
-					ctx.fillRect(x, y, rect_width, ch);
-
-                    if (!(i % 2)) {
-                        r = color1[0];
-                        g = color1[1];
-                        b = color1[2];
-                    } else {
-                        r = color2[0];
-                        g = color2[1];
-                        b = color2[2];
-                    }
-
-                    x = x + (rect_width * Math.random());
-                    y = ch * Math.random();
-
-                    var c = new circle(x, y, 3, 'rgba(' + r + ',' + g + ',' + b + ')');
-                    first_stage.push(c);
-				}
-
                 contaminant.update();
             }
 
@@ -577,8 +955,8 @@
                 second_stage = [];
                 var rect_height = ch / nsample_size;
 
-                var color1 = [255, 140, 0];
-                var color2 = [255, 215, 0];
+                var color1 = blue;
+                var color2 = light_blue;
 
                 for(var i=0; i<nsample_size; i++){
                     var y = (rect_height * i);
@@ -635,13 +1013,18 @@
                 if (contaminant.is_caught) {
 
                     if (c == 0) {
-                        if (stratify_enabled) {
+                        if (first_stratify_enabled) {
                             first_stratify();
-                            second_stratify();
                         } else {
                             random_samples();
+                        }
+
+                        if (second_stratify_enabled) {
+                            second_stratify();
+                        } else {
                             random2_samples();
                         }
+
                         soft_init();
                         auto_detect(c);
                         return;
@@ -650,14 +1033,17 @@
                     return c;
                 }
 
-                if (stratify_enabled) {
+                if (first_stratify_enabled) {
                     first_stratify();
-                    second_stratify();
                 } else {
                     random_samples();
-                    random2_samples();
                 }
 
+                if (second_stratify_enabled) {
+                    second_stratify();
+                } else {
+                    random2_samples();
+                }
 
                 soft_init();
 
